@@ -20,7 +20,6 @@ class _FriendsPageState extends State<FriendsPage> {
   final FocusNode _focusNode = FocusNode();
   InternetStatus? internetStatus;
   StreamSubscription<InternetStatus>? listener;
-  bool _isDone = false;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +84,7 @@ class _FriendsPageState extends State<FriendsPage> {
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
-                    : value.listFriends.isEmpty && _isDone
+                    : value.listFriends.isEmpty
                         ? Center(
                             child: H5("Don't have friends"),
                           )
@@ -180,7 +179,6 @@ class _FriendsPageState extends State<FriendsPage> {
     provider.searchController.clear();
     provider.listSearchFriends.clear();
     provider.listFriends.clear();
-    updateIsDone(false);
     super.didChangeDependencies();
   }
 
@@ -190,13 +188,6 @@ class _FriendsPageState extends State<FriendsPage> {
     Get.fToast.init(context);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await checkInternetAndGetFriends(context);
-      updateIsDone(true);
-    });
-  }
-
-  void updateIsDone(val) {
-    setState(() {
-      _isDone = val;
     });
   }
 
